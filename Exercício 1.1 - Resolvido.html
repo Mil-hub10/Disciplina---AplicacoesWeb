@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Porcentagem</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="number"] {
+      width: 80px;
+      padding: 10px;
+      font-size: 18px;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    input[type="number"]:focus {
+      border-color: #007bff;
+    }
+
+    .simbolo {
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .btn-igual {
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-igual:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <input type="number" value="20">
+    <span class="simbolo">%</span>
+    <input type="number" value="50">
+    <button class="btn-igual">=</button>
+    <input type="number" value="10">
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll('input');
+    const valor1 = inputs[0];
+    const valor2 = inputs[1];
+    const resultado = inputs[2];
+    const botaoigual = document.querySelector('.btn-igual');
+
+    botaoigual.addEventListener('click', () => {
+      resultado.value = valor1.value*valor2.value / 100
+
+    });
+//Aqui precisei usar o  querySelectorAll, pois não havia um id específico para cada caixinha de input;
+//O selectorAll "pegou" todas as caixinhas e colocou em uma "lista", como se fosse um array;
+//Daí, para trabalhar com cada uma separadamente, precisei criar constantes para identificá-las, usando a posição de cada uma;
+//E por fim, precisei selecionar a classe do botão de igual e integrar um Envento ao clicar nele.
+
+
+
+  </script>
+
+</body>
+</html>

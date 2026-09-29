@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Exemplo com Saudação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    .container {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #28a745;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <input type="text" id="nomeInput" placeholder="Digite seu nome...">
+    <button onclick="cumprimentar()">Enviar</button>
+  </div>
+
+  <script>
+      function cumprimentar() {
+      //Aqui eu uso querySelector, pois estudei que o getElementById é mais antigo e só serve pra buscar por id. Já o querySelector é mais moderno e mais flexível, porque aceita qualquer seletor CSS, como id, classe , tag, etc.
+      const nome = document.querySelector('#nomeInput').value;
+      console.log('Olá ' + nome);
+    }
+  </script>
+
+</body>
+</html>
