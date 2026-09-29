@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Calculadora de Porcentagem</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="number"] {
+      width: 80px;
+      padding: 10px;
+      font-size: 18px;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    input[type="number"]:focus {
+      border-color: #007bff;
+    }
+
+    .simbolo {
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .btn-igual {
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-igual:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <input type="number" value="20" id="num1">
+    <button class="btn-igual" onclick="calculaFatorial()">!</button>
+    <button class="btn-igual" onclick="calculaPotencia()">^</button>
+    <input type="number" value="50" id="num2">
+    <span class="simbolo">=</span>
+    <input type="number" value="10" id="res">
+  </div>
+<script>
+
+//Em cada função, foi necessário declarar as constantes novamente, e elas são exatamente iguais. Será que nesse caso poderíamos usar o var? 
+//Pois ele tem escopo global. Então se declarássemos uma vez, "vazaria" para as próximas funções, sem necessidade de declará-las novamente.
+
+  function calculaFatorial() {
+
+    const numero1 = parseFloat(document.querySelector("#num1").value);
+    const numero2 = parseFloat(document.querySelector("#num2").value);
+    const resultado = document.querySelector("#res");
+    let fator = numero1;
+
+    for (let i = numero1 - 1; i >= 1; i--) {
+    fator = fator * i;
+
+    }
+    resultado.value = fator ; 
+
+  }
+
+  function calculaPotencia() {
+
+    const numero1 = parseFloat(document.querySelector("#num1").value);
+    const numero2 = parseFloat(document.querySelector("#num2").value);
+    const resultado = document.querySelector("#res");
+    
+    resultado.value = numero1 ** numero2;
+
+  }
+
+</script>
+  
+
+</body>
+</html>
