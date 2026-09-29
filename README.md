@@ -1,2 +1,2 @@
-# Aplica-es-WEB---Aula-0---Exerc-cios
+# Disciplina---AplicacoesWeb
 Exercícios propostos resolvidos
