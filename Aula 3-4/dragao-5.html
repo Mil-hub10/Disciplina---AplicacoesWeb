@@ -43,7 +43,33 @@
   </ul>
 
   <script>
+function filtrarTecnologias() {
 
+  // Converte para minúscula, assim ajuda porque quando digitamos "java" ele vai achar "JavaScript" também, mesmo com a diferença de maiúsculas/minúsculas.
+  let termoBuscado = document.querySelector('#campoBusca').value.toLowerCase();
+
+ 
+  //    querySelectorAll retorna uma lista (NodeList) com todos eles juntos.
+  let itensTecnologia = document.querySelectorAll('#listaTecnologias li');
+
+  // 3) Percorre cada <li> um por um.
+  for (let i = 0; i < itensTecnologia.length; i++) {
+
+    // Pega o texto daquele item específico (ex: "JavaScript") e também
+    // converte pra minúsculas, pra comparar igual com igual.
+    let textoItem = itensTecnologia[i].textContent.toLowerCase();
+
+    // 4) .includes() verifica se o termoBuscado está CONTIDO no texto do item.
+    //    Ex: "java".includes dentro de "javascript" -> true
+    if (textoItem.includes(termoBuscado)) {
+      // Se contém o termo buscado, mantém visível
+      itensTecnologia[i].style.display = "block";
+    } else {
+      // Se não contém, esconde o item
+      itensTecnologia[i].style.display = "none";
+    }
+  }
+}
     
   </script>
 </body>
