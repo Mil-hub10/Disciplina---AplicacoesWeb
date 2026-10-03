@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercício 3.3 - Lista de Tarefas</title>
+</head>
+<body>
+
+  <!-- Campo para digitar a tarefa -->
+  <input type="text" id="tarefaInput" placeholder="Digite uma tarefa">
+
+  <!-- Botão que adiciona a tarefa -->
+  <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
+
+  <!-- Lista não ordenada, onde as tarefas vão aparecer -->
+  <ul id="minhasTarefas"></ul>
+
+  <script>
+    // Array global vazio, que vai guardar todas as tarefas. Let mais seguro contra bugs do que var, mas funciona da mesma forma.
+    let listaDeTarefas = [];
+
+    // Função chamada quando o botão é clicado
+    function adicionarTarefa() {
+      // Pega o elemento do campo de texto
+      var campoTarefa = document.getElementById("tarefaInput");
+
+      // Pega o texto digitado nele
+      var textoDigitado = campoTarefa.value;
+
+      // Adiciona esse texto no final do array, usando push
+      listaDeTarefas.push(textoDigitado);
+
+      // Limpa o campo de texto, deixando ele vazio de novo
+      campoTarefa.value = "";
+
+      // Chama a função que redesenha a lista na tela
+      atualizarLista();
+    }
+
+    // Função que redesenha toda a lista na tela
+    function atualizarLista() {
+      // Limpa todo o conteúdo visual da lista (apaga tudo que tinha antes)
+      document.getElementById("minhasTarefas").innerHTML = "";
+
+      // Percorre o array inteiro, posição por posição
+      for (var i = 0; i < listaDeTarefas.length; i++) {
+        // Cria um novo item de lista (<li>) para cada tarefa
+        // e junta ele dentro da <ul>, usando += para não apagar os anteriores
+        document.getElementById("minhasTarefas").innerHTML += "<li>" + listaDeTarefas[i] + "</li>";
+      }
+    }
+  </script>
+
+</body>
+</html>

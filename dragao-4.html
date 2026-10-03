@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercício 3.4 - Painel Dinâmico de Cadastros</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    input {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Cadastro de Produtos</h2>
+
+  <input type="text" id="campoNomeProduto" placeholder="Nome do Produto">
+  <input type="number" id="campoPrecoProduto" placeholder="Preço (R$)">
+  <button onclick="cadastrarProduto()">Cadastrar Produto</button>
+
+  <ul id="listaProdutos"></ul>
+
+  <script>
+
+  function cadastrarProduto() {
+
+  let produtos = document.querySelector('#campoNomeProduto').value;
+  let precos = Number(document.querySelector('#campoPrecoProduto').value);
+  let newItem = document.createElement('li');
+
+  // toFixed(2) para limitar a quantidade de casas decimais
+  newItem.textContent = `${produtos} - R$ ${precos.toFixed(2)}`;
+
+  // Cria o botão "Excluir" 
+  let botaoExcluir = document.createElement('button');
+
+  // Define do botão
+  botaoExcluir.textContent = 'Excluir';
+
+  // Liga um evento de clique nesse botão específico
+  botaoExcluir.addEventListener('click', function () {
+    newItem.remove();
+  });
+
+  //Encaixa o botão DENTRO do <li>, antes de inserir o <li> na lista.
+
+  newItem.appendChild(botaoExcluir);
+
+  // Só agora o <li> (já com o botão dentro dele) é inserido na <ul>
+  document.querySelector('#listaProdutos').appendChild(newItem);
+  document.querySelector('#campoNomeProduto').value = '';
+  document.querySelector('#campoPrecoProduto').value = '';
+}
+
+  </script>
+</body>
+</html>

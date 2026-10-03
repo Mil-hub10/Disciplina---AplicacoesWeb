@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- Diz ao navegador que este é um documento HTML5 -->
+<html lang="pt-br">
+<head>
+  <!-- Cabeçário - Informações de bastidores, não aparece para o usuário -->
+  <meta charset="UTF-8">
+  <title>dragao-1 - Gerador de Saudação</title>
+</head>
+<body>
+  <!-- Esqueleto visual; cria peças na tela, tipo botões caixa de texto e parágrafos; -->
+
+  <!-- Caixa de texto onde o usuário digita o nome -->
+  <input type="text" id="nomeInput" placeholder="Digite seu nome">
+
+  <!-- Botão que, ao ser clicado, chama a função de exibirSaudacao() -->
+  <button onclick="exibirSaudacao()">Saudar</button>
+
+  <!-- Parágrafo vazio, onde o resultado vai aparecer depois -->
+  <p id="mensagem"></p>
+
+  <script>
+    // A parte que realmente faz as coisas funcionarem;
+    function construirSaudacao(nome) {
+      return "Olá, " + nome + "! Seja bem-vindo ao meu primeiro código Web!";
+    }
+
+    // Função chamada quando o botão é clicado
+    function exibirSaudacao() {
+      // vá na página, ache a caixa com id nomeInput, e me dê o que está escrito dentro dela agora
+      var nomeDigitado = document.getElementById("nomeInput").value;
+
+      // Chama a função construirSaudacao, passando o nome digitado
+      var saudacaoCompleta = construirSaudacao(nomeDigitado);
+
+      // Coloca o texto retornado dentro do parágrafo #mensagem
+      document.getElementById("mensagem").innerText = saudacaoCompleta;
+    }
+  </script>
+</body>
+</html>

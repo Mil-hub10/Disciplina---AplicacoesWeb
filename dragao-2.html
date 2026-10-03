@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercício 3.2 - Calculadora de Média</title>
+</head>
+<body>
+
+  <!-- Campo para digitar a Nota 1 -->
+  <input type="number" id="nota1Input" placeholder="Digite a primeira nota">
+
+  <!-- Campo para digitar a Nota 2 -->
+  <input type="number" id="nota2Input" placeholder="Digite a segunda nota">
+
+  <!-- Botão que aciona o cálculo -->
+  <button onclick="exibirResultado()">Calcular Média</button>
+
+  <!-- Onde o resultado vai aparecer -->
+  <p id="resultadoCalculo"></p>
+
+  <script>
+    // Função que recebe dois números e RETORNA a média entre eles
+    function calcularMedia(n1, n2) {
+      return (n1 + n2) / 2;
+    }
+
+    // Função chamada quando o botão é clicado
+    function exibirResultado() {
+      // Pega o valor digitado no campo Nota 1 (vem como texto) e converte para número
+      var nota1 = Number(document.getElementById("nota1Input").value);
+
+      // Pega o valor digitado no campo Nota 2 e converte para número
+      var nota2 = Number(document.getElementById("nota2Input").value);
+
+      // Chama a função calcularMedia, passando as duas notas já convertidas
+      var media = calcularMedia(nota1, nota2);
+
+      // Pega o elemento onde o resultado vai aparecer
+      var elementoResultado = document.getElementById("resultadoCalculo");
+
+      // Verifica se a média é maior ou igual a 7
+      if (media >= 7.0) {
+        // Mostra a média junto com "Aprovado"
+        elementoResultado.innerText = "Média: " + media + " - Aprovado";
+        // Muda a cor do texto para verde
+        elementoResultado.style.color = "green";
+      } else {
+        // Mostra a média junto com "Recuperação"
+        elementoResultado.innerText = "Média: " + media + " - Recuperação";
+        // Muda a cor do texto para vermelho
+        elementoResultado.style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>
