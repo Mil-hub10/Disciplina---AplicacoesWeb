@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes ClickPsico</title>
+
+   
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        
+        .painel-esquerdo select {
+            width: 250px;
+            height: 130px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        
+        .painel-meio button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .painel-meio button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Lado Direito - Quadro Divs */
+        .painel-direito {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 250px;
+        }
+
+        .card-info {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #fafafa;
+        }
+
+        .card-info strong {
+            display: block;
+            color: #555;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .card-info div {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .card-info img {
+            max-width: 80px;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Esquerda: Listbox com as siglas -->
+        <div class="painel-esquerdo">
+            <select id="selectpaciente" size="6">
+    
+                <option value="1">Milena Santana de Jesus</option>
+                <option value="2">Felipe Santana de Jesus</option>
+                <option value="3">Maria Cleuza Silva de Santana</option>
+                <option value="4">Eduardo Santana de Jesus</option>
+               
+            </select>
+        </div>
+
+        <!-- Meio: Botão -->
+        <div class="painel-meio">
+            <button id="btnDetalhes">Detalhes</button>
+        </div>
+
+        <!-- Direita: Quatro divs/quadros de informações -->
+        <div class="painel-direito">
+            <div class="card-info">
+                <strong>ID</strong>
+                <div id="divid">-</div>
+            </div>
+            <div class="card-info">
+                <strong>STATUS</strong>
+                <div id="divstatus">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Psicólogo responsável</strong>
+                <div id="divpsicologo">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Medicação de uso contínuo</strong>
+                <div id="divmedicacao">-</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       // Arrays paralelos com informações dos pacientes
+const id = ["1258", "3569", "8547", "2356"];
+const status = ["Em andamento", "Pausado", "Cancelado", "Em andamento"];
+const psicologo = ["Roberto Monn", "Solange Harumi", "Aline Aparecida", "Vilma Krown"];
+const medicacao = ["Losartana.", "Anlodipino.", "Dipirona", "Muitos"];
+
+// Mapeamento dos elementos da DOM
+const selectpaciente = document.getElementById("selectpaciente");
+const btnDetalhes = document.getElementById("btnDetalhes");
+const divid = document.getElementById("divid");
+const divstatus = document.getElementById("divstatus");
+const divpsicologo = document.getElementById("divpsicologo");
+const divmedicacao = document.getElementById("divmedicacao");
+
+// EventListener para o evento onclick do botão
+btnDetalhes.addEventListener("click", function() {
+    // Pega o índice selecionado na listbox e ajusta (value começa em 1, array em 0)
+    const index = selectpaciente.value - 1;
+
+    // Se houver seleção válida
+    if (selectpaciente.value !== "") {
+        // Preenche as divs usando o índice ajustado nos arrays paralelos
+        divid.textContent = id[index];
+        divstatus.textContent = status[index];
+        divpsicologo.textContent = psicologo[index];
+        divmedicacao.textContent = medicacao[index];
+    }
+});
+</script>
+
+</body>
+</html>
