@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pacientes - ClickPsico</title>
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f4f4f9;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Lado Esquerdo - Listbox */
+    .painel-esquerdo select {
+        width: 150px;
+        height: 200px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* Meio - Botões */
+    .painel-meio {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .painel-meio button {
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    #btnDetalhes {
+        background-color: #007bff;
+    }
+
+    #btnDetalhes:hover {
+        background-color: #0056b3;
+    }
+
+    #btnAbrirModal {
+        background-color: #28a745;
+    }
+
+    #btnAbrirModal:hover {
+        background-color: #218838;
+    }
+
+    #btnBaixarJson {
+        background-color: #17a2b8;
+    }
+
+    #btnBaixarJson:hover {
+        background-color: #117a8b;
+    }
+
+    #btnCarregarJson {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    #btnCarregarJson:hover {
+        background-color: #e0a800;
+    }
+
+    /* Lado Direito - Quadro Divs */
+    .painel-direito {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 250px;
+    }
+
+    .card-info {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10px;
+        background-color: #fafafa;
+    }
+
+    .card-info strong {
+        display: block;
+        color: #555;
+        font-size: 12px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .card-info div {
+        font-size: 15px;
+        color: #333;
+    }
+
+    .card-info img {
+        max-width: 80px;
+        height: auto;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+    }
+
+    /* Estilo do Modal (Janela de Formulário) */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 25px;
+        border-radius: 8px;
+        width: 320px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 4px;
+        color: #666;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .modal-acoes {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .modal-acoes button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .btn-salvar {
+        background-color: #28a745;
+    }
+
+    .btn-cancelar {
+        background-color: #dc3545;
+    }
+</style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Esquerda: Listbox com os nomes dos pacientes -->
+        <div class="painel-esquerdo">
+            <select id="selectPacientes" size="5"></select>
+        </div>
+
+        <!-- Meio: Botões -->
+        <div class="painel-meio">
+            <button id="btnDetalhes">Detalhes</button>
+            <button id="btnAbrirModal">Novo Paciente</button>
+            <button id="btnBaixarJson">Exportar JSON</button>
+            <button id="btnCarregarJson">Importar JSON</button>
+            <input type="file" id="fileInputJson" accept=".json" style="display: none;">
+        </div>
+
+        <!-- Direita: Quatro divs/quadros de informações -->
+        <div class="painel-direito">
+            <div class="card-info">
+                <strong>Data de Nascimento</strong>
+                <div id="divNascimento">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Telefone</strong>
+                <div id="divTelefone">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Endereço</strong>
+                <div id="divEndereco">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Foto</strong>
+                <div id="divFoto">-</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Formulário para Inserção de Dados -->
+    <div class="modal-overlay" id="modalForm">
+        <div class="modal-content">
+            <h3>Cadastrar Novo Paciente</h3>
+            <div class="form-group">
+                <label for="inputNome">Nome:</label>
+                <input type="text" id="inputNome" placeholder="Ex: Fernanda Alves">
+            </div>
+            <div class="form-group">
+                <label for="inputNascimento">Data de Nascimento:</label>
+                <input type="text" id="inputNascimento" placeholder="Ex: 15/05/1992">
+            </div>
+            <div class="form-group">
+                <label for="inputTelefone">Telefone:</label>
+                <input type="text" id="inputTelefone" placeholder="Ex: (11) 95544-3322">
+            </div>
+            <div class="form-group">
+                <label for="inputEndereco">Endereço:</label>
+                <input type="text" id="inputEndereco" placeholder="Ex: Rua Haddock Lobo, 987">
+            </div>
+            <div class="form-group">
+                <label for="inputFoto">URL da Foto:</label>
+                <input type="url" id="inputFoto" placeholder="https://i.pravatar.cc/150?img=5">
+            </div>
+            <div class="modal-acoes">
+                <button type="button" class="btn-cancelar" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn-salvar" id="btnSalvar">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Classe que representa um paciente (cada paciente é um objeto)
+        class Paciente {
+            constructor(nome, nascimento, telefone, endereco, foto) {
+                this.nome = nome;
+                this.nascimento = nascimento;
+                this.telefone = telefone;
+                this.endereco = endereco;
+                this.foto = foto;
+            }
+        }
+
+        // Lista de objetos Paciente (fica na memória RAM)
+        let listaPacientes = [];
+
+        // Mapeamento dos elementos da DOM
+        const selectPacientes  = document.getElementById("selectPacientes");
+        const btnDetalhes      = document.getElementById("btnDetalhes");
+        const btnAbrirModal    = document.getElementById("btnAbrirModal");
+        const btnCancelar      = document.getElementById("btnCancelar");
+        const btnSalvar        = document.getElementById("btnSalvar");
+        const btnBaixarJson    = document.getElementById("btnBaixarJson");
+        const btnCarregarJson  = document.getElementById("btnCarregarJson");
+        const fileInputJson    = document.getElementById("fileInputJson");
+        const modalForm        = document.getElementById("modalForm");
+
+        const divNascimento    = document.getElementById("divNascimento");
+        const divTelefone      = document.getElementById("divTelefone");
+        const divEndereco      = document.getElementById("divEndereco");
+        const divFoto          = document.getElementById("divFoto");
+
+        // --- CARREGAMENTO VIA JSON ---
+        async function carregarDadosJSON() {
+            const dadosSalvos = localStorage.getItem("pacientes_json");
+
+            if (dadosSalvos) {
+                // Instancia objetos a partir da cópia local
+                const objetos = JSON.parse(dadosSalvos);
+                listaPacientes = objetos.map(obj => new Paciente(obj.nome, obj.nascimento, obj.telefone, obj.endereco, obj.foto));
+                atualizarListbox();
+            } else {
+                try {
+                    // Requisita a leitura do arquivo externo 'pacientes.json'
+                    const resposta = await fetch("pacientes.json");
+                    if (!resposta.ok) throw new Error("Erro ao carregar pacientes.json");
+
+                    const dadosJson = await resposta.json();
+                    listaPacientes = dadosJson.map(obj => new Paciente(obj.nome, obj.nascimento, obj.telefone, obj.endereco, obj.foto));
+
+                    atualizarListbox();
+                    escreverDadosJSON();
+                } catch (e) {
+                    console.error("Falha ao ler dados iniciais do arquivo JSON:", e);
+                    alert("Não foi possível carregar o arquivo 'pacientes.json'. Certifique-se de estar rodando em um servidor local (ex: Live Server).");
+                }
+            }
+        }
+
+        // Guarda a lista atual como texto JSON no localStorage
+        function escreverDadosJSON() {
+            const jsonString = JSON.stringify(listaPacientes, null, 2);
+            localStorage.setItem("pacientes_json", jsonString);
+        }
+
+        // Recria as opções da listbox a partir da lista de objetos
+        function atualizarListbox() {
+            selectPacientes.innerHTML = "";
+            listaPacientes.forEach((paciente, index) => {
+                const opcao = document.createElement("option");
+                opcao.value = index;
+                opcao.textContent = paciente.nome;
+                if (index === 0) opcao.selected = true;
+                selectPacientes.appendChild(opcao);
+            });
+        }
+
+        // --- EVENTOS ---
+        btnDetalhes.addEventListener("click", function() {
+            const index = selectPacientes.value;
+            if (index !== null && index !== "" && listaPacientes[index]) {
+                const pacienteSelecionado = listaPacientes[index];
+                divNascimento.textContent = pacienteSelecionado.nascimento;
+                divTelefone.textContent   = pacienteSelecionado.telefone;
+                divEndereco.textContent   = pacienteSelecionado.endereco;
+                divFoto.innerHTML = `<img src="${pacienteSelecionado.foto}" alt="Foto de ${pacienteSelecionado.nome}">`;
+            }
+        });
+
+        btnAbrirModal.addEventListener("click", () => modalForm.style.display = "flex");
+        btnCancelar.addEventListener("click", () => {
+            modalForm.style.display = "none";
+            limparFormulario();
+        });
+
+        btnSalvar.addEventListener("click", function() {
+            const nome       = document.getElementById("inputNome").value.trim();
+            const nascimento = document.getElementById("inputNascimento").value.trim();
+            const telefone   = document.getElementById("inputTelefone").value.trim();
+            const endereco   = document.getElementById("inputEndereco").value.trim();
+            const foto       = document.getElementById("inputFoto").value.trim();
+
+            if (!nome || !nascimento || !telefone || !endereco || !foto) {
+                alert("Por favor, preencha todos os campos!");
+                return;
+            }
+
+            // Cria o objeto e adiciona ao final da lista
+            const novoPaciente = new Paciente(nome, nascimento, telefone, endereco, foto);
+            listaPacientes.push(novoPaciente);
+
+            escreverDadosJSON();
+            atualizarListbox();
+            selectPacientes.value = listaPacientes.length - 1;
+
+            modalForm.style.display = "none";
+            limparFormulario();
+        });
+
+        // Exportar/Sobrescrever arquivo JSON via FileSystem Access API
+        btnBaixarJson.addEventListener("click", async function() {
+            const jsonString = JSON.stringify(listaPacientes, null, 2);
+
+            if ('showSaveFilePicker' in window) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: 'pacientes.json',
+                        types: [{ description: 'Arquivo JSON', accept: { 'application/json': ['.json'] } }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(jsonString);
+                    await writable.close();
+                } catch (err) {
+                    if (err.name !== 'AbortError') console.error(err);
+                }
+            } else {
+                const blob = new Blob([jsonString], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "pacientes.json";
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        });
+
+        // Importação de arquivo JSON externo pelo usuário
+        btnCarregarJson.addEventListener("click", () => fileInputJson.click());
+
+        fileInputJson.addEventListener("change", function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evento) {
+                try {
+                    const dadosLidos = JSON.parse(evento.target.result);
+                    listaPacientes = dadosLidos.map(obj => new Paciente(obj.nome, obj.nascimento, obj.telefone, obj.endereco, obj.foto));
+                    escreverDadosJSON();
+                    atualizarListbox();
+                } catch (err) {
+                    alert("Erro ao ler a estrutura do arquivo JSON.");
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        function limparFormulario() {
+            document.getElementById("inputNome").value       = "";
+            document.getElementById("inputNascimento").value = "";
+            document.getElementById("inputTelefone").value   = "";
+            document.getElementById("inputEndereco").value   = "";
+            document.getElementById("inputFoto").value       = "";
+        }
+
+        // Executa a leitura inicial via arquivo JSON
+        carregarDadosJSON();
+    </script>
+
+</body>
+</html>

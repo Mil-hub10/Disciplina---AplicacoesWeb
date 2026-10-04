@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pacientes - ClickPsico</title>
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f4f4f9;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .painel-esquerdo select {
+        width: 150px;
+        height: 180px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .painel-meio button {
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .painel-meio button:hover {
+        background-color: #0056b3;
+    }
+
+    .painel-direito {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 250px;
+    }
+
+    .card-info {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10px;
+        background-color: #fafafa;
+    }
+
+    .card-info strong {
+        display: block;
+        color: #555;
+        font-size: 12px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .card-info div {
+        font-size: 15px;
+        color: #333;
+    }
+
+    .card-info img {
+        max-width: 80px;
+        height: auto;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+    }
+</style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Esquerda: Listbox com os nomes dos pacientes -->
+        <div class="painel-esquerdo">
+            <select id="selectPacientes" size="5">
+                <option value="0" selected>Ana Souza</option>
+                <option value="1">Bruno Lima</option>
+                <option value="2">Carla Dias</option>
+                <option value="3">Diego Martins</option>
+                <option value="4">Elisa Ferreira</option>
+            </select>
+        </div>
+
+        <!-- Meio: Botão -->
+        <div class="painel-meio">
+            <button id="btnDetalhes">Detalhes</button>
+        </div>
+
+        <!-- Direita: Quatro divs/quadros de informações -->
+        <div class="painel-direito">
+            <div class="card-info">
+                <strong>Data de Nascimento</strong>
+                <div id="divNascimento">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Telefone</strong>
+                <div id="divTelefone">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Endereço</strong>
+                <div id="divEndereco">-</div>
+            </div>
+            <div class="card-info">
+                <strong>Foto</strong>
+                <div id="divFoto">-</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 5 Arrays paralelos com informações fictícias dos pacientes
+        // (mesmo índice em cada array = mesmo paciente)
+        const nomes       = ["Ana Souza", "Bruno Lima", "Carla Dias", "Diego Martins", "Elisa Ferreira"];
+        const nascimentos = ["12/03/1990", "25/07/1985", "03/11/2001", "19/01/1978", "08/09/1995"];
+        const telefones   = ["(11) 98765-4321", "(11) 91234-5678", "(11) 99988-7766", "(11) 97766-5544", "(11) 96655-4433"];
+        const enderecos   = ["Rua das Flores, 123", "Av. Paulista, 456", "Rua Augusta, 789", "Rua Oscar Freire, 321", "Av. Brigadeiro, 654"];
+        const fotos = [
+            "https://i.pravatar.cc/150?img=1",
+            "https://i.pravatar.cc/150?img=12",
+            "https://i.pravatar.cc/150?img=25",
+            "https://i.pravatar.cc/150?img=33",
+            "https://i.pravatar.cc/150?img=47"
+        ];
+
+        // Mapeamento dos elementos da DOM
+        const selectPacientes = document.getElementById("selectPacientes");
+        const btnDetalhes     = document.getElementById("btnDetalhes");
+        const divNascimento   = document.getElementById("divNascimento");
+        const divTelefone     = document.getElementById("divTelefone");
+        const divEndereco     = document.getElementById("divEndereco");
+        const divFoto         = document.getElementById("divFoto");
+
+        // EventListener para o evento de clique do botão
+        btnDetalhes.addEventListener("click", function() {
+            // Pega o índice selecionado na listbox
+            const index = selectPacientes.value;
+
+            // Se houver seleção válida
+            if (index !== "") {
+                // Preenche as divs usando o MESMO índice em cada array paralelo
+                // (é essa sincronia pelo índice que conecta os dados do "mesmo" paciente)
+                divNascimento.textContent = nascimentos[index];
+                divTelefone.textContent   = telefones[index];
+                divEndereco.textContent   = enderecos[index];
+
+                // Para a foto, usa innerHTML pra montar a tag <img> com template string
+                divFoto.innerHTML = `<img src="${fotos[index]}" alt="Foto de ${nomes[index]}">`;
+            }
+        });
+    </script>
+
+</body>
+</html>
