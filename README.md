@@ -10,4 +10,6 @@ Ideia Geral das aulas:
 //Como próprio nome indica, const, é para referências que não mudam, como para elementos do DOM. E let para valores que mudam, como contadores.
 //Seleção de elementos, pode ser realizada com getElementById. Então, como o próprio nome refere, quando usamos ele seletor referenciamos o elemento pelo ID. 
 // Porém, como tem elementos que não vão ter ID, que vão ter classes ou tags, é preferível usar o querySelector, e o querySelectorAll, pois assim conseguimos referenciar não apenas pelo ID, e nem apenas um, mas uma classe.
-//A interpolação de string, com crase e ${ }, é um jeito mais limpo de montar um texto misturando partes fixas com valores que podem mudar — variáveis, contas, funções ou ternários — sem precisar ficar quebrando tudo com o operador +.
+//A interpolação de string, com crase e ${ }, é um jeito mais limpo de montar um texto misturando partes fixas com valores que podem mudar — variáveis, contas, funções ou ternários, sem precisar ficar quebrando tudo com o operador +.
+//JSON.stringify() - Pega um objeto do JS e coloca transforma em texto. - transforma em doc
+//JSON.parse() pega o texto e transforma de volta em objeto - Lê o doc, e transforma em objeto
